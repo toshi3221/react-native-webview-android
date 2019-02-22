@@ -10,6 +10,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebSettings;
 import android.webkit.CookieManager;
 
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 
@@ -33,6 +35,7 @@ public class RNWebViewManager extends SimpleViewManager<RNWebView> {
     public static final int INJECT_JAVASCRIPT = 6;
     public static final int SHOULD_OVERRIDE_WITH_RESULT = 7;
     public static final int EVALUATE_JAVASCRIPT = 8;
+    public static final int CHECK_NAVIGATION_STATE = 9;
 
     private static final String HTML_MIME_TYPE = "text/html";
 
@@ -194,6 +197,7 @@ public class RNWebViewManager extends SimpleViewManager<RNWebView> {
                 "shouldOverrideWithResult", SHOULD_OVERRIDE_WITH_RESULT
         );
         map.put("evaluateJavascript", EVALUATE_JAVASCRIPT);
+        map.put("checkNavigationState", CHECK_NAVIGATION_STATE);
 
         return map;
     }
@@ -242,6 +246,9 @@ public class RNWebViewManager extends SimpleViewManager<RNWebView> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     view.evaluateJavascript(args.getString(0), null);
                 }
+                break;
+            case CHECK_NAVIGATION_STATE:
+                view.checkNavigationState(view);
                 break;
         }
     }

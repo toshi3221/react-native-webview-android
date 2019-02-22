@@ -49,7 +49,7 @@ class RNWebView extends WebView implements LifecycleEventListener {
         }
 
         public void onPageFinished(WebView view, String url) {
-            mEventDispatcher.dispatchEvent(new NavigationStateChangeEvent(getId(), SystemClock.nanoTime(), view.getTitle(), false, url, view.canGoBack(), view.canGoForward()));
+            mEventDispatcher.dispatchEvent(new NavigationStateChangeEvent(getId(), SystemClock.nanoTime(), view.getTitle(), false, url, view.canGoBack(), view.canGoForward(), view.getContentHeight()));
 
             currentUrl = url;
 
@@ -59,7 +59,7 @@ class RNWebView extends WebView implements LifecycleEventListener {
         }
 
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            mEventDispatcher.dispatchEvent(new NavigationStateChangeEvent(getId(), SystemClock.nanoTime(), view.getTitle(), true, url, view.canGoBack(), view.canGoForward()));
+            mEventDispatcher.dispatchEvent(new NavigationStateChangeEvent(getId(), SystemClock.nanoTime(), view.getTitle(), true, url, view.canGoBack(), view.canGoForward(), view.getContentHeight()));
         }
     }
 
@@ -192,5 +192,9 @@ class RNWebView extends WebView implements LifecycleEventListener {
     @JavascriptInterface
      public void postMessage(String jsParamaters) {
         mEventDispatcher.dispatchEvent(new MessageEvent(getId(), jsParamaters));
+    }
+
+    public void checkNavigationState(WebView view) {
+        mEventDispatcher.dispatchEvent(new NavigationStateChangeEvent(getId(), SystemClock.nanoTime(), null, false, view.getUrl(), view.canGoBack(), view.canGoForward(), view.getContentHeight()));
     }
 }

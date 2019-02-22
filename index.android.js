@@ -105,6 +105,13 @@ var WebViewAndroid = createClass({
       [data]
     );
   },
+  checkNavigationState: function() {
+    RCTUIManager.dispatchViewManagerCommand(
+      this._getWebViewHandle(),
+      RCTUIManager.RNWebViewAndroid.Commands.checkNavigationState,
+      null
+    );
+  },
   render: function() {
     return (
       <RNWebViewAndroid
